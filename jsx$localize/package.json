@@ -14,7 +14,7 @@
 			"import": "./dist/vite.js"
 		}
 	},
-  "sideEffects": true,
+  "sideEffects": false,
   "files": [
     "dist"
   ],

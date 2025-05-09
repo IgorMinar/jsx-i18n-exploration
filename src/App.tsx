@@ -1,6 +1,6 @@
-import '@angular/localize/init';
 import './App.css';
-import '@flarelabs-net/jsx-localize/react';
+import { initializeJsxLocalize } from '@flarelabs-net/jsx-localize/react';
+initializeJsxLocalize();
 
 import { useState } from 'react';
 

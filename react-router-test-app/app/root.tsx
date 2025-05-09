@@ -1,4 +1,6 @@
-import '@flarelabs-net/jsx-localize/react';
+import { initializeJsxLocalize } from '@flarelabs-net/jsx-localize/react';
+initializeJsxLocalize();
+
 import {
   isRouteErrorResponse,
   Links,

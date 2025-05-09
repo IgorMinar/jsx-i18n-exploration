@@ -43,21 +43,24 @@ class LocalizedString extends String {
   }
 }
 
-// @ts-ignore
-globalThis.$localize = function $localizeDeferred(strings: TemplateStringsArray, ...values: unknown[]) {
-  // This is a bit funky way to create the object, but we need to be able to override the length getter which is non-configurable on the String prototype
-  return Object.create(new LocalizedString(strings, ...values), {
-    length: {
-      get() {
-        return this.toString().length;
+export function initializeJsxLocalize() {
+
+  // @ts-ignore
+  globalThis.$localize = function $localizeDeferred(strings: TemplateStringsArray, ...values: unknown[]) {
+    // This is a bit funky way to create the object, but we need to be able to override the length getter which is non-configurable on the String prototype
+    return Object.create(new LocalizedString(strings, ...values), {
+      length: {
+        get() {
+          return this.toString().length;
+        }
       }
+    });
+  }
+
+  // monkey patch the original $localize so that it can find the translations loaded via `loadTranslations` during runtime localization (SSR)
+  Object.defineProperty($localizeOriginal, 'translate', {
+    get() {
+      return $localize.translate;
     }
   });
 }
-
-// monkey patch the original $localize so that it can find the translations loaded via `loadTranslations` during runtime localization (SSR)
-Object.defineProperty($localizeOriginal, 'translate', {
-  get() {
-    return $localize.translate;
-  }
-});
